@@ -47,8 +47,9 @@ node index.js
 ## TODO
 
 - [ ] SwiftUI support
+- [ ] Build as XCAssets
+- [ ] Load on demand
 - [ ] Categories
-- [ ] All
 - [ ] Picker GUI
 
 ## License

@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "falafel.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

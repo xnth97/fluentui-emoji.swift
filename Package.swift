@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "FluentUIEmoji",
     platforms: [
-        .macOS(.v10_13),
-        .iOS(.v11),
-        .watchOS(.v5),
-        .tvOS(.v11),
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .watchOS(.v6),
+        .tvOS(.v13),
     ],
     products: [
         .library(

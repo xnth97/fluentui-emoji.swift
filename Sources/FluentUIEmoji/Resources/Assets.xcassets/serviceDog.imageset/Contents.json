@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "serviceDog.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

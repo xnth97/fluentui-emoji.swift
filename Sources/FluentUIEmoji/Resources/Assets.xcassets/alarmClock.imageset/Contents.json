@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "alarmClock.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "mammoth.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

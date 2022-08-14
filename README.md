@@ -11,10 +11,10 @@ A type-safe auto-generated Swift wrapper around [fluentui-emoji](https://github.
 
 ### Requirements
 
-* iOS 11+
-* macOS 10.13+
-* tvOS 11+
-* watchOS 5+
+* iOS 13+
+* macOS 10.15+
+* tvOS 13+
+* watchOS 6+
 
 ### Installation
 
@@ -31,7 +31,13 @@ dependencies: [
 ```swift
 import FluentUIEmoji
 
+/// AppKit or UIKit
 let image = FluentUIEmoji.smilingFace
+
+/// SwiftUI
+FluentUIEmojiSwiftUI.smilingFace
+    .resizable()
+    .frame(width: 128, height: 128)
 ```
 
 ## Codegen
@@ -46,9 +52,10 @@ node index.js
 
 ## TODO
 
-- [ ] SwiftUI support
-- [ ] Build as XCAssets
+- [x] SwiftUI support
+- [x] Build as XCAssets
 - [ ] Load on demand
+- [x] Codegen testing
 - [ ] Categories
 - [ ] Picker GUI
 

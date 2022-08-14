@@ -21,10 +21,12 @@ const hardcodeConvertion = {
   '3rd place medal': 'bronzeMedal',
 };
 const sourcesDestPath = path.join(basePath, '..', 'Sources', 'FluentUIEmoji');
-const resourcesDestPath = path.join(sourcesDestPath, 'Resources');
+const resourcesDestPath = path.join(sourcesDestPath, 'Resources', 'Assets.xcassets');
 
 let uiImageCode = '';
 let nsImageCode = '';
+let swiftUICode = '';
+let testCode = '';
 
 console.log('Iterating resources...');
 const assetsPath = path.join(basePath, repoName, 'assets');
@@ -55,13 +57,38 @@ for (const dir of dirs) {
     continue;
   }
 
-  fs.cpSync(path.join(iconFolder, iconFile), path.join(resourcesDestPath, `${iconName}.png`));
-  uiImageCode += `    public static let ${iconName}: UIImage = { return UIImage(contentsOfFile: getImagePath(name: "${iconName}"))! }()\n`;
-  nsImageCode += `    public static let ${iconName}: NSImage = { return NSImage(contentsOfFile: getImagePath(name: "${iconName}"))! }()\n`;
+  const contentsMetadata = {
+    "images" : [
+      {
+        "filename" : `${iconName}.png`,
+        "idiom" : "universal"
+      }
+    ],
+    "info" : {
+      "author" : "xcode",
+      "version" : 1
+    }
+  };
+
+  const imagesetPath = path.join(resourcesDestPath, `${iconName}.imageset`);
+  if (!fs.existsSync(imagesetPath)) {
+    fs.mkdirSync(imagesetPath);
+  }
+
+  fs.cpSync(path.join(iconFolder, iconFile), path.join(imagesetPath, `${iconName}.png`));
+  fs.writeFileSync(path.join(imagesetPath, 'Contents.json'), JSON.stringify(contentsMetadata, null, 4));
+  uiImageCode += `    public static let ${iconName} = UIImage(named: "${iconName}", in: Bundle.module, with: nil)!\n`;
+  nsImageCode += `    public static let ${iconName} = Bundle.module.image(forResource: "${iconName}")!\n`;
+  swiftUICode += `    public static var ${iconName}: Image { return Image("${iconName}", bundle: Bundle.module) }\n`;
+  testCode += `        XCTAssertNotNil(FluentUIEmoji.${iconName}, "FluentUIEmoji.${iconName} should not be nil")\n`;
 }
 
 const code = fs.readFileSync(path.join(basePath, 'FluentUIEmoji-template.swift')).toString()
   .replace('    /// UIImage', uiImageCode)
   .replace('    /// NSImage', nsImageCode)
+  .replace('    /// SwiftUI', swiftUICode);
 fs.writeFileSync(path.join(sourcesDestPath, 'FluentUIEmoji.swift'), code);
+const tests = fs.readFileSync(path.join(basePath, 'FluentUIEmojiTests-template.swift')).toString()
+  .replace('        /// Test', testCode);
+fs.writeFileSync(path.join(basePath, '..', 'Tests', 'FluentUIEmojiTests', 'FluentUIEmojiTests.swift'), tests);
 console.log('Codegen complete!');

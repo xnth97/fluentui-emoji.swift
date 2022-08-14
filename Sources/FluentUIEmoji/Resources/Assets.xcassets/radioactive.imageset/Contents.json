@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "radioactive.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

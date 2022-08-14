@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "hammerAndWrench.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

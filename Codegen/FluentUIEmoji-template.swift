@@ -13,9 +13,10 @@ public struct FluentUIEmoji {
     #endif
 }
 
-fileprivate func getImagePath(name: String) -> String {
-    guard let path = Bundle.module.path(forResource: name, ofType: "png") else {
-        fatalError("File path for \(name) does not exist.")
-    }
-    return path
+#if canImport(SwiftUI)
+import SwiftUI
+
+public struct FluentUIEmojiSwiftUI {
+    /// SwiftUI
 }
+#endif

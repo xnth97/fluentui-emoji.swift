@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "bone.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

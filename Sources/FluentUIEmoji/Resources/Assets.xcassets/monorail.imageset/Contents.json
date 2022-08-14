@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "monorail.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

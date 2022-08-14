@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "counterclockwiseArrowsButton.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "mutedSpeaker.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

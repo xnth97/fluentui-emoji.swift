@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "downLeftArrow.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

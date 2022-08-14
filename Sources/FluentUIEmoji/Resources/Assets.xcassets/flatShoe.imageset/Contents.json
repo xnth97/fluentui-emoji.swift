@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "flatShoe.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

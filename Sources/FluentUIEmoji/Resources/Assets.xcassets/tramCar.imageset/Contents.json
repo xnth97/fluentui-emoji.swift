@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "tramCar.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

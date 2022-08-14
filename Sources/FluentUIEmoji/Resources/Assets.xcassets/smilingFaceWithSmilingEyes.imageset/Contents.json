@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "smilingFaceWithSmilingEyes.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}

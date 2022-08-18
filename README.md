@@ -22,7 +22,7 @@ fluentui-emoji.swift is distributed as a Swift package. Add this repo to your pr
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/xnth97/fluentui-emoji.swift.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/xnth97/fluentui-emoji.swift.git", .upToNextMajor(from: "1.2.0"))
 ]
 ```
 
@@ -32,12 +32,22 @@ dependencies: [
 import FluentUIEmoji
 
 /// AppKit or UIKit
-let image = FluentUIEmoji.smilingFace
+let image = FluentUIEmoji.smilingFace.image
 
 /// SwiftUI
-FluentUIEmojiSwiftUI.smilingFace
+FluentUIEmoji.smilingFace.swiftUIImage
     .resizable()
     .frame(width: 128, height: 128)
+
+/// Groups
+LazyVGrid(columns: [GridItem(.adaptive(minimum: 64, maximum: 64))]) {
+    ForEach(FluentUIEmoji.emojis(for: .smileysAndEmotion)) { emoji in
+        emoji.swiftUIImage
+            .resizable()
+            .frame(width: 64, height: 64)
+            .padding()
+    }
+}
 ```
 
 ## Codegen
@@ -56,7 +66,8 @@ node index.js
 - [x] Build as XCAssets
 - [ ] Load on demand
 - [x] Codegen testing
-- [ ] Categories
+- [x] Categories
+- [x] Raw name
 - [ ] Picker GUI
 
 ## License

@@ -23,10 +23,16 @@ const hardcodeConvertion = {
 const sourcesDestPath = path.join(basePath, '..', 'Sources', 'FluentUIEmoji');
 const resourcesDestPath = path.join(sourcesDestPath, 'Resources', 'Assets.xcassets');
 
-let uiImageCode = '';
-let nsImageCode = '';
-let swiftUICode = '';
+let imageCode = '';
+let groupsCode = 'case unknown\n';
 let testCode = '';
+
+let groupSet = new Set(['unknown']);
+
+/**
+ * @type {Map<string, Array<string>>}
+ */
+let groupEmojiMap = {};
 
 console.log('Iterating resources...');
 const assetsPath = path.join(basePath, repoName, 'assets');
@@ -57,6 +63,18 @@ for (const dir of dirs) {
     continue;
   }
 
+  const metadataPath = path.join(assetsPath, dir, 'metadata.json');
+  const metadata = JSON.parse(fs.readFileSync(metadataPath).toString());
+  let group = 'unknown';
+  if (metadata['group'] !== undefined) {
+    group = camelCase(metadata['group'].replace('&', 'And'));
+  }
+
+  if (!groupSet.has(group)) {
+    groupSet.add(group);
+    groupsCode += `        case ${group}\n`;
+  }
+
   const contentsMetadata = {
     "images" : [
       {
@@ -77,18 +95,31 @@ for (const dir of dirs) {
 
   fs.cpSync(path.join(iconFolder, iconFile), path.join(imagesetPath, `${iconName}.png`));
   fs.writeFileSync(path.join(imagesetPath, 'Contents.json'), JSON.stringify(contentsMetadata, null, 4));
-  uiImageCode += `    public static let ${iconName} = UIImage(named: "${iconName}", in: Bundle.module, with: nil)!\n`;
-  nsImageCode += `    public static let ${iconName} = Bundle.module.image(forResource: "${iconName}")!\n`;
-  swiftUICode += `    public static var ${iconName}: Image { return Image("${iconName}", bundle: Bundle.module) }\n`;
-  testCode += `        XCTAssertNotNil(FluentUIEmoji.${iconName}, "FluentUIEmoji.${iconName} should not be nil")\n`;
+  imageCode += `    public static let ${iconName} = FluentUIEmoji(name: "${iconName}", group: .${group})\n`;
+  testCode += `        XCTAssertNotNil(FluentUIEmoji.${iconName}.image, "FluentUIEmoji.${iconName} should not be nil")\n`;
+
+  if (groupEmojiMap[group] === undefined) {
+    groupEmojiMap[group] = [iconName];
+  } else {
+    groupEmojiMap[group].push(iconName);
+  }
 }
 
-const code = fs.readFileSync(path.join(basePath, 'FluentUIEmoji-template.swift')).toString()
-  .replace('    /// UIImage', uiImageCode)
-  .replace('    /// NSImage', nsImageCode)
-  .replace('    /// SwiftUI', swiftUICode);
-fs.writeFileSync(path.join(sourcesDestPath, 'FluentUIEmoji.swift'), code);
+const code = fs.readFileSync(path.join(basePath, 'Emojis-template.swift')).toString()
+  .replace('    /// Images', imageCode);
+fs.writeFileSync(path.join(sourcesDestPath, 'Emojis.swift'), code);
+
+let switchCode = '';
+for (const key in groupEmojiMap) {
+  switchCode += `        case .${key}:\n            return [${groupEmojiMap[key].map(iconName => `FluentUIEmoji.${iconName}`).join(', ')}]\n`;
+}
+const groups = fs.readFileSync(path.join(basePath, 'EmojiGroup-template.swift')).toString()
+  .replace('case unknown\n', groupsCode)
+  .replace('        /// Switch\n', switchCode);
+fs.writeFileSync(path.join(sourcesDestPath, 'EmojiGroup.swift'), groups);
+
 const tests = fs.readFileSync(path.join(basePath, 'FluentUIEmojiTests-template.swift')).toString()
   .replace('        /// Test', testCode);
 fs.writeFileSync(path.join(basePath, '..', 'Tests', 'FluentUIEmojiTests', 'FluentUIEmojiTests.swift'), tests);
+
 console.log('Codegen complete!');

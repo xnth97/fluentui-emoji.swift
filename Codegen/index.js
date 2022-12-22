@@ -19,9 +19,14 @@ const hardcodeConvertion = {
   '1st place medal': 'goldMedal',
   '2nd place medal': 'silverMedal',
   '3rd place medal': 'bronzeMedal',
+  'Guard': 'guardian',
 };
 const sourcesDestPath = path.join(basePath, '..', 'Sources', 'FluentUIEmoji');
 const resourcesDestPath = path.join(sourcesDestPath, 'Resources', 'Assets.xcassets');
+
+console.log('Cleaning up Assets.xcassets...');
+fs.rmSync(resourcesDestPath, { recursive: true, force: true });
+fs.mkdirSync(resourcesDestPath);
 
 let imageCode = '';
 let groupsCode = 'case unknown\n';
@@ -52,10 +57,14 @@ for (const dir of dirs) {
     iconName = camelCase(dir);
   }
   
-  const iconFolder = path.join(assetsPath, dir, '3D');
+  let iconFolder = path.join(assetsPath, dir, '3D');
   if (!fs.existsSync(iconFolder)) {
-    // No 3D icon.
-    continue;
+    // No 3D icon, try default variant
+    iconFolder = path.join(assetsPath, dir, 'Default', '3D');
+
+    if (!fs.existsSync(iconFolder)) {
+      continue;
+    }
   }
 
   const iconFile = fs.readdirSync(iconFolder)[0];

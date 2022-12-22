@@ -1,0 +1,12 @@
+{
+    "images": [
+        {
+            "filename": "manGuard.png",
+            "idiom": "universal"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "version": 1
+    }
+}
